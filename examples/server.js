@@ -9,6 +9,7 @@ var app = cantina.createApp({
 
 app.use(auth.plugin, {
   serializeUser: function(user, done) {
+    console.log(user);
     done(null, user);
   },
   deserializeUser: function(obj, done) {
