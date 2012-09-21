@@ -1,32 +1,24 @@
-var TwitterStrategy = require('passport-twitter').Strategy,
+var app = require('cantina'),
+    TwitterStrategy = require('passport-twitter').Strategy,
     url = require('url');
 
-module.exports = {
-  name: 'auth-twitter',
-
-  defaults: {
+app.conf.add({
+  'auth-twitter': {
     successRedirect: '/',
-    failureRedirect: '/'
-  },
-
-  init: function(app, done) {
-    var conf = app.conf.get('auth-twitter');
-
-    if(!app.verifyTwitter) {
-      throw new Error('Your app must provide a verifyTwitter callback');
-    }
-    if(!conf.callbackURL) {
-      throw new Error('Your app must provide a callbackURL');
-    }
-
-    app.passport.use(new TwitterStrategy(conf, app.verifyTwitter));
-
-    if (conf.authURL) {
-      app.middleware.add(conf.authURL, app.passport.authenticate('twitter', conf));
-    }
-
-    app.middleware.add(url.parse(conf.callbackURL).path, app.passport.authenticate('twitter', conf));
-
-    done();
+    failureRedirect: '/',
+    authURL: '/login'
   }
-};
+});
+
+app.on('init', function() {
+  var conf = app.conf.get('auth-twitter');
+
+  if(!conf.callbackURL) {
+    throw new Error('Your app must provide a callbackURL');
+  }
+
+  app.passport.use(new TwitterStrategy(conf, app.invoke.bind(app, 'auth-twitter:verify')));
+
+  app.middleware.add(conf.authURL, app.passport.authenticate('twitter', conf));
+  app.middleware.add(url.parse(conf.callbackURL).path, app.passport.authenticate('twitter', conf));
+});
