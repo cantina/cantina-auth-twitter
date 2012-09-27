@@ -67,7 +67,7 @@ app.load(function(err) {
   app.on('auth:deserialize', function(obj) {
     return obj;
   });
-  app.on('auth-twitter:verfiy', function(token, tokenSecret, profile) {
+  app.on('auth-twitter:verify', function(token, tokenSecret, profile) {
     return profile;
   });
 
