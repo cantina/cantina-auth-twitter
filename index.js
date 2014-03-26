@@ -3,9 +3,7 @@ var app = require('cantina'),
     url = require('url')
   , conf;
 
-if (!app.middleware) {
-  throw new Error('Middleware stack not found on app.middlware');
-}
+require('cantina-web');
 
 // Default conf
 app.conf.add({
