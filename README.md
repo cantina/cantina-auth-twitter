@@ -33,17 +33,17 @@ Configuration
 
 Usage
 -----
-Your application MUST listen for the authentication events:
-- `auth:serialize`
-- `auth:deserialize`
-- `auth-twitter:verify`
+Your application MUST provide handlers for serializing, deserializing, and verifying users.
+- `app.serializeUser`
+- `app.deserializeUser`
+- `app.verifyTwitterUser`
 
 Example
 -------
 ```js
 var app = require('cantina');
 
-app.load(function(err) {
+app.boot(function(err) {
   if (err) return console.error(err);
 
   app.conf.set('http:port', 3000);
@@ -54,24 +54,23 @@ app.load(function(err) {
     authURL: '/login'
   });
 
-  require(app.plugins.http);
-  require(app.plugins.middleware);
+  app.serializeUser = function(user) {
+    return user;
+  };
+  app.deserializeUser = function(obj) {
+    return obj;
+  };
+  app.verifyTwitterUser = function(token, tokenSecret, profile) {
+    return profile;
+  };
+
+  require('cantina-web');
   require('cantina-redis');
   require('cantina-session');
   require('cantina-auth');
   require('../');
 
-  app.on('auth:serialize', function(user) {
-    return user;
-  });
-  app.on('auth:deserialize', function(obj) {
-    return obj;
-  });
-  app.on('auth-twitter:verify', function(token, tokenSecret, profile) {
-    return profile;
-  });
-
-  app.init(function(err) {
+  app.start(function(err) {
     if (err) return console.log(err);
 
     app.middleware.get('/', function index(req, res) {
