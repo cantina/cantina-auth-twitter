@@ -5,20 +5,20 @@ app.boot(function(err) {
 
   app.conf.set('http:port', 3000);
   app.conf.set('auth-twitter', {
-    consumerKey: 'fxQRQBiuNiBW24oHV8q1A',
-    consumerSecret: 'ovfXjjkjTAndhUwfgwu3tflrydIZXukjXn7w4PGk8',
+    consumerKey: 'JAXZDe4uuLMWYiO4ljlYsA',
+    consumerSecret: 'NQ5Pgrfl5kwP3xJG0MnS1RJ7pXVeIcy1h0JLJ2Avs',
     callbackURL: 'http://localhost:3000/auth/twitter/callback',
     authURL: '/login'
   });
 
-  app.serializeUser = function(user) {
-    return user;
+  app.serializeUser = function(user, cb) {
+    return cb(null, user.id);
   };
-  app.deserializeUser = function(obj) {
-    return obj;
+  app.deserializeUser = function(obj, cb) {
+    return cb(null, obj);
   };
-  app.verifyTwitterUser = function(token, tokenSecret, profile) {
-    return profile;
+  app.verifyTwitterUser = function(token, tokenSecret, profile, done) {
+    return done(null, profile);
   };
 
   require('cantina-web');

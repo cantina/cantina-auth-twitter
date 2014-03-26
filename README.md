@@ -54,14 +54,14 @@ app.boot(function(err) {
     authURL: '/login'
   });
 
-  app.serializeUser = function(user) {
-    return user;
+  app.serializeUser = function(user, cb) {
+    return cb(null, user.id);
   };
-  app.deserializeUser = function(obj) {
-    return obj;
+  app.deserializeUser = function(obj, cb) {
+    return cb(null, obj);
   };
-  app.verifyTwitterUser = function(token, tokenSecret, profile) {
-    return profile;
+  app.verifyTwitterUser = function(token, tokenSecret, profile, done) {
+    return done(null, profile);
   };
 
   require('cantina-web');
