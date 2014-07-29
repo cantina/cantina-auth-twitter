@@ -14,11 +14,18 @@
     "passport-twitter": "~0.1.3"
   },
   "peerDependencies": {
-    "cantina": "~4.0.0",
-    "cantina-redis": "~4.0.0",
-    "cantina-session": "~4.0.0",
-    "cantina-auth": "~4.0.0",
-    "cantina-web": "~4.0.0"
+    "cantina": "~4.1.0",
+    "cantina-redis": "~4.1.0",
+    "cantina-session": "~4.1.0",
+    "cantina-auth": "~4.1.0",
+    "cantina-web": "~4.1.0"
+  },
+  "devDependencies": {
+    "cantina": "~4.1.0",
+    "cantina-redis": "~4.1.0",
+    "cantina-session": "~4.1.0",
+    "cantina-auth": "~4.1.0",
+    "cantina-web": "~4.1.0"
   },
   "optionalDependencies": {},
   "engines": {
